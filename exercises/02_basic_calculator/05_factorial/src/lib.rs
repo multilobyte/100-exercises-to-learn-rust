@@ -9,6 +9,17 @@
 // `factorial(2)` to return `2`, and so on.
 //
 // Use only what you learned! No loops yet, so you'll have to use recursion!
+//
+fn factorial(n: u32) -> u32 {
+    let mut i = 2;
+    let mut p = 1;
+    // invariant p = 1 * 2 * ... * (i-1)
+    while i <= n {
+        p = p * i;
+        i = i + 1;
+    }
+    p
+}
 
 #[cfg(test)]
 mod tests {
