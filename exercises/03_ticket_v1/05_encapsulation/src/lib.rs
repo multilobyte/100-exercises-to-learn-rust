@@ -32,8 +32,11 @@ pub mod ticket {
 
         // TODO: Add three public methods to the `Ticket` struct:
         //  - `title` that returns the `title` field.
+        pub fn title(&self) -> &str { &self.title }
         //  - `description` that returns the `description` field.
+        pub fn description(&self) -> &str { &self.description }
         //  - `status` that returns the `status` field.
+        pub fn status(&self) -> &str { &self.status }
     }
 }
 
