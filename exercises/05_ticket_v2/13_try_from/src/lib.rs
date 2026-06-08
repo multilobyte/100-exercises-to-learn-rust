@@ -8,6 +8,45 @@ enum Status {
     Done,
 }
 
+#[derive(thiserror::Error, Debug)]
+enum StatusConversionError {
+    #[error("invalid string {0}")]
+    InvalidString(String)
+}
+
+impl TryFrom<String> for Status {
+    type Error = StatusConversionError;
+    fn try_from(value: String) -> Result<Self, Self::Error> {
+        let lowercase_value = value.to_lowercase();
+        if lowercase_value == "todo" {
+            Ok(Status::ToDo)
+        } else if lowercase_value == "inprogress" {
+            Ok(Status::InProgress)
+        } else if lowercase_value == "done" {
+            Ok(Status::Done)
+        } else {
+            Err(StatusConversionError::InvalidString(value.clone()))
+        }
+    }
+}
+
+impl TryFrom<&str> for Status {
+    type Error = StatusConversionError;
+    fn try_from(value: &str) -> Result<Self, Self::Error> {
+        let lowercase_value = value.to_lowercase();
+        if lowercase_value == "todo" {
+            Ok(Status::ToDo)
+        } else if lowercase_value == "inprogress" {
+            Ok(Status::InProgress)
+        } else if lowercase_value == "done" {
+            Ok(Status::Done)
+        } else {
+            Err(StatusConversionError::InvalidString(String::from(value)))
+        }
+    }
+}
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
