@@ -6,8 +6,8 @@ pub mod store;
 
 // Refer to the tests to understand the expected schema.
 pub enum Command {
-    Insert { todo!() },
-    Get { todo!() }
+    Insert{draft: data::TicketDraft, response_sender: Sender<store::TicketId>},
+    Get{id: store::TicketId, response_sender: Sender<Option<data::Ticket>>},
 }
 
 pub fn launch() -> Sender<Command> {
@@ -19,21 +19,16 @@ pub fn launch() -> Sender<Command> {
 // TODO: handle incoming commands as expected.
 pub fn server(receiver: Receiver<Command>) {
     let mut store = TicketStore::new();
-    loop {
-        match receiver.recv() {
-            Ok(Command::Insert {}) => {
-                todo!()
-            }
-            Ok(Command::Get {
-                todo!()
-            }) => {
-                todo!()
-            }
-            Err(_) => {
-                // There are no more senders, so we can safely break
-                // and shut down the server.
-                break
+    while let Ok(msg) = receiver.recv() {
+        match msg {
+            Command::Insert{draft, response_sender} => {
+                let ticket_id = store.add_ticket(draft);
+                response_sender.send(ticket_id).expect("send response");
             },
+            Command::Get{id, response_sender} => {
+                let ticket = store.get(id).cloned();
+                response_sender.send(ticket).expect("send response");
+            }
         }
     }
 }
