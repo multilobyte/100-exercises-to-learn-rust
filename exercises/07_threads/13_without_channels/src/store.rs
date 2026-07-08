@@ -20,6 +20,10 @@ impl TicketStore {
         }
     }
 
+    pub fn shared() -> Arc<RwLock<Self>> {
+        Arc::new(RwLock::new(Self::new()))
+    }
+
     pub fn add_ticket(&mut self, ticket: TicketDraft) -> TicketId {
         let id = TicketId(self.counter);
         self.counter += 1;

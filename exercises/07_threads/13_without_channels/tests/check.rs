@@ -7,7 +7,7 @@ use without_channels::store::TicketStore;
 
 #[test]
 fn works() {
-    let store = todo!();
+    let store = TicketStore::shared();
 
     let store1 = store.clone();
     let client1 = spawn(move || {
