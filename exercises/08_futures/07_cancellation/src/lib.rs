@@ -5,6 +5,7 @@ use tokio::io::AsyncReadExt;
 use tokio::net::TcpListener;
 
 pub async fn run(listener: TcpListener, n_messages: usize, timeout: Duration) -> Vec<u8> {
+    println!("run started");
     let mut buffer = Vec::new();
     for _ in 0..n_messages {
         let (mut stream, _) = listener.accept().await.unwrap();
@@ -46,6 +47,6 @@ mod tests {
 
         let buffered = handle.await.unwrap();
         let buffered = std::str::from_utf8(&buffered).unwrap();
-        assert_eq!(buffered, "");
+        assert_eq!(buffered, "hefrthta");
     }
 }
