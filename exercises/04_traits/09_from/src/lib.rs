@@ -4,6 +4,15 @@ pub struct WrappingU32 {
     value: u32,
 }
 
+impl From<i32> for WrappingU32 {
+    fn from(v: i32) -> Self {
+        let value = v as u32;
+        Self {
+            value,
+        }
+    }
+}
+
 fn example() {
     let wrapping: WrappingU32 = 42.into();
     let wrapping = WrappingU32::from(42);
