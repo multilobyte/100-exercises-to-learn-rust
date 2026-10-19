@@ -1,4 +1,5 @@
 use ticket_fields::{TicketDescription, TicketTitle};
+use std::vec;
 
 // TODO: Let's start sketching our ticket store!
 //  First task: implement `IntoIterator` on `TicketStore` to allow iterating over all the tickets
@@ -11,6 +12,14 @@ use ticket_fields::{TicketDescription, TicketTitle};
 #[derive(Clone)]
 pub struct TicketStore {
     tickets: Vec<Ticket>,
+}
+
+impl IntoIterator for TicketStore {
+    type Item = Ticket;
+    type IntoIter = vec::IntoIter<Ticket>;
+    fn into_iter(self) -> Self::IntoIter {
+        self.tickets.into_iter()
+    } 
 }
 
 #[derive(Clone, Debug, PartialEq)]
