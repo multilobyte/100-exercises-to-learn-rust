@@ -14,8 +14,12 @@
 // this is necessary in the next exercise.
 use std::thread;
 
-pub fn sum(v: Vec<i32>) -> i32 {
-    todo!()
+pub fn sum(mut v: Vec<i32>) -> i32 {
+    // clone the 2nd half of vector
+    let len = v.len() / 2;
+    let v2 = v.split_off(len);
+    let t1 = thread::spawn(move || v2.into_iter().sum::<i32>() );
+    v.into_iter().sum::<i32>() + t1.join().unwrap()
 }
 
 #[cfg(test)]
